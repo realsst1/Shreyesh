@@ -56,35 +56,35 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="60dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="0dp"
-        android:layout_marginBottom="0dp"
+        android:layout_height="50dp"
         android:orientation="horizontal"
         android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+
         <ImageView
             android:id="@+id/addImage"
-            android:src="@drawable/add"
-            android:layout_weight="0.3"
             android:layout_width="0dp"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            android:layout_weight="0.3"
+            android:src="@drawable/baseline_add_a_photo_black_24dp" />
+
         <EditText
             android:id="@+id/messageToSend"
             android:layout_width="0dp"
+            android:layout_height="match_parent"
             android:layout_weight="1.4"
-            android:textSize="18dp"
             android:hint="Type the message..."
-            android:layout_height="match_parent" />
+            android:textSize="18dp" />
+
         <ImageView
-            android:layout_marginTop="2dp"
             android:id="@+id/sendMessage"
             android:layout_width="0dp"
-            android:src="@drawable/action_sendweb"
             android:layout_height="match_parent"
-            android:layout_weight="0.3"/>
+            android:layout_marginTop="2dp"
+            android:layout_weight="0.3"
+            android:src="@drawable/action_sendweb" />
     </LinearLayout>
 
 
