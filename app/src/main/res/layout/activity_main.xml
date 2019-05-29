@@ -20,7 +20,14 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="4dp"
+                android:src="@drawable/avatarplaceholder"/>
+
             <TextView
+                android:layout_marginLeft="8dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="24dp"
@@ -31,8 +38,9 @@
 
     </android.support.v7.widget.Toolbar>
 
-    <fragment
-        android:id="@+id/frag"
+    <FrameLayout
+        android:background="@color/chatgrey"
+        android:id="@+id/frag_container"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginStart="0dp"
@@ -71,12 +79,12 @@
             android:hint="Type the message..."
             android:layout_height="match_parent" />
         <ImageView
+            android:layout_marginTop="2dp"
             android:id="@+id/sendMessage"
             android:layout_width="0dp"
             android:src="@drawable/action_sendweb"
             android:layout_height="match_parent"
             android:layout_weight="0.3"/>
-
     </LinearLayout>
 
 
