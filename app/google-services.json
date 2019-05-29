@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "162756535267",
+    "firebase_url": "https://shreyesh-97b40.firebaseio.com",
+    "project_id": "shreyesh-97b40",
+    "storage_bucket": "shreyesh-97b40.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:162756535267:android:cbcbdde2ebed6885",
+        "android_client_info": {
+          "package_name": "com.example.shreyesh"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "162756535267-l6cbbj198srhvj2ug494dfg9u20qopj9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.shreyesh",
+            "certificate_hash": "e9f6e6031c98e2c4fb432e911e3e61daac40085c"
+          }
+        },
+        {
+          "client_id": "162756535267-jf7o3546isbcrm7lok4sqja6tvio4pad.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAeC9aRHTpEArSxPZa_TrJtQxOqmP9PKxg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "162756535267-jf7o3546isbcrm7lok4sqja6tvio4pad.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
