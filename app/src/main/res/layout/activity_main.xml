@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/chatgrey"
     tools:context=".MainActivity">
 
     <android.support.v7.widget.Toolbar
@@ -21,17 +22,18 @@
             android:layout_height="match_parent">
 
             <de.hdodenhof.circleimageview.CircleImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginTop="4dp"
                 android:layout_marginLeft="5dp"
-                android:src="@drawable/avatarplaceholder"/>
+                android:src="@drawable/sam"/>
 
             <TextView
                 android:layout_marginLeft="12dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textSize="24dp"
+                android:layout_marginTop="5dp"
                 android:textColor="@android:color/white"
                 android:text="Sam"
                 />
@@ -43,6 +45,7 @@
         android:id="@+id/refresh"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:background="@color/chatgrey"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,7 +71,9 @@
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="0dp"
-        android:layout_height="50dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="4dp"
+        android:background="@color/chatgrey"
         android:orientation="horizontal"
         android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -80,14 +85,16 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="0.3"
-            android:src="@drawable/baseline_add_a_photo_black_24dp" />
+            android:src="@drawable/photo" />
 
         <EditText
             android:id="@+id/messageToSend"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1.4"
+            android:background="@drawable/send_back"
             android:hint="Type the message..."
+            android:padding="8dp"
             android:textSize="18dp" />
 
         <ImageView
@@ -96,7 +103,7 @@
             android:layout_height="match_parent"
             android:layout_marginTop="2dp"
             android:layout_weight="0.3"
-            android:src="@drawable/action_sendweb" />
+            android:src="@drawable/right1" />
     </LinearLayout>
 
 
