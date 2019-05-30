@@ -13,6 +13,7 @@ import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -26,8 +27,8 @@ public class MessageAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MIDDLE_MESSAGE=3;
     private static final String currentUserID = "eHTD1GfzsJMkxyvtZcaO2O1Nq9q1";
     private static final String chatUserID = "yaZg0RepRPMOr9lt3bpLLRqx1e03";
-    private Date previousDate,currentDate;
     private boolean show;
+    private long prev;
 
     public MessageAdapter(List<Messages> messageList){
         this.messageList=messageList;
@@ -54,7 +55,6 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View view;
-        previousDate=new Date();
         if(i==1){
             view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message_single_layout_s,viewGroup,false);
             return new SentViewHolder(view);
@@ -77,26 +77,50 @@ public class MessageAdapter extends RecyclerView.Adapter {
 
         String message=messageList.get(i).getMessage();
         Long time=messageList.get(i).getTime();
-        currentDate=new Date(time);
-        if(currentDate.compareTo(previousDate)==0)
-            show=false;
-        else{
-            show=true;
-            previousDate=currentDate;
+        prev=0;
+        if(i>0){
+            Messages pm=messageList.get(i-1);
+            prev=pm.getTime();
         }
+        setTimeTextVisibility(time,prev);
         switch (viewHolder.getItemViewType()){
             case VIEW_TYPE_MESSAGE_RECIEVED:
                 ((RecievedViewHolder)viewHolder).setMessage(message);
+                ((RecievedViewHolder)viewHolder).setTime(time);
                 break;
             case VIEW_TYPE_MESSAGE_SENT:
                 ((SentViewHolder)viewHolder).setMessage(message);
+                ((SentViewHolder)viewHolder).setTime(time);
                 break;
             case VIEW_TYPE_MESSAGE_RECIEVED_IMAGE:
                 ((RecievedViewHolderImage)viewHolder).setImage(message);
+                ((RecievedViewHolderImage)viewHolder).setTime(time);
                 break;
             case VIEW_TYPE_MESSAGE_SENT_IMAGE:
                 ((SentViewHolderImage)viewHolder).setImage(message);
+                ((SentViewHolderImage)viewHolder).setTime(time);
                 break;
+        }
+    }
+
+    private void setTimeTextVisibility(long ts1, long ts2){
+
+        if(ts2==0){
+            show=true;
+        }else {
+            Calendar cal1 = Calendar.getInstance();
+            Calendar cal2 = Calendar.getInstance();
+            cal1.setTimeInMillis(ts1);
+            cal2.setTimeInMillis(ts2);
+
+            boolean sameMonth = cal1.get(Calendar.YEAR) == cal2.get(Calendar.YEAR) &&
+                    cal1.get(Calendar.MONTH) == cal2.get(Calendar.MONTH) && cal1.get(Calendar.DAY_OF_MONTH)==cal2.get(Calendar.DAY_OF_MONTH);
+
+            if(sameMonth){
+                show=false;
+            }else {
+                show=true;
+            }
         }
     }
 
@@ -174,7 +198,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
         public void setTime(Long time){
             TextView d=(TextView)view.findViewById(R.id.sDateImage);
             d.setText(getDatafTimeStamp(time));
-            d.setText(getDatafTimeStamp(time));
+            System.out.println("time:"+getDatafTimeStamp(time));
             if(show==true)
                 d.setVisibility(View.VISIBLE);
             else
@@ -206,7 +230,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
         public void setTime(Long time){
             TextView d=(TextView)view.findViewById(R.id.rDateImage);
             d.setText(getDatafTimeStamp(time));
-            d.setText(getDatafTimeStamp(time));
+            System.out.println("time:"+getDatafTimeStamp(time));
             if(show==true)
                 d.setVisibility(View.VISIBLE);
             else
