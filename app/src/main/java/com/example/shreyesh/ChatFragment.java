@@ -7,8 +7,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,6 +42,7 @@ public class ChatFragment extends Fragment {
     private static final int TOTAL_ITEMS_TO_LOAD = 10;
     private int currentPage = 1;
     private int itemPos = 0;
+    private SwipeRefreshLayout swipeRefreshLayout;
 
     private String lastKey = "";
     private String prevKey = "";
@@ -59,13 +62,24 @@ public class ChatFragment extends Fragment {
         adapter=new MessageAdapter(messageList);
         layoutManager=new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
+        swipeRefreshLayout=(SwipeRefreshLayout)getActivity().findViewById(R.id.refresh);
 
         recyclerView.setAdapter(adapter);
 
         messageRef=FirebaseDatabase.getInstance().getReference();
         messageRef.keepSynced(true);
-
         loadMessages();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                currentPage++;
+                itemPos = 0;
+                loadMoreMessages();
+                System.out.println("Swipe Called");
+            }
+        });
+
         return view;
 
     }
@@ -77,10 +91,7 @@ public class ChatFragment extends Fragment {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
                 Messages message=dataSnapshot.getValue(Messages.class);
-                System.out.println("Message ggg:"+message.getMessage());
-                messageList.add(message);
-                adapter.notifyDataSetChanged();
-                recyclerView.scrollToPosition(messageList.size()-1);
+
                 itemPos++;
                 if (itemPos == 1) {
                     String msgKey = dataSnapshot.getKey();
@@ -88,8 +99,13 @@ public class ChatFragment extends Fragment {
                     prevKey = msgKey;
                 }
 
+                messageList.add(message);
+                adapter.notifyDataSetChanged();
+                recyclerView.scrollToPosition(messageList.size()-1);
+
                 messageDatabaseReference.keepSynced(true);
-                loadMoreMessages();
+                //loadMoreMessages();
+                swipeRefreshLayout.setRefreshing(false);
             }
 
             @Override
@@ -124,7 +140,7 @@ public class ChatFragment extends Fragment {
 
                     Messages messages = dataSnapshot.getValue(Messages.class);
                     String msgKey = dataSnapshot.getKey();
-                    if (!prevKey.equals(lastKey)) {
+                    if (!prevKey.equals(msgKey)) {
                         messageList.add(itemPos++, messages);
 
                     } else {
@@ -136,15 +152,16 @@ public class ChatFragment extends Fragment {
                         lastKey = msgKey;
                     }
 
+                    //Log.d("TOTALKEYS", "Last Key : " + lastKey + " | Prev Key : " + prevKey + " | Message Key : " + msgKey);
 
                     adapter.notifyDataSetChanged();
 
                     messageDatabaseReference.keepSynced(true);
+
+                    swipeRefreshLayout.setRefreshing(false);
                     layoutManager.scrollToPositionWithOffset(10, 0);
 
-
                 }
-
                 @Override
                 public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 

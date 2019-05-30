@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView send, sendImage;
     private EditText message;
     private Toolbar mainToolbar;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private ProgressDialog dialog;
     private StorageReference storageReference;
     private DatabaseReference messageRef, databaseReference;
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        swipeRefreshLayout=(SwipeRefreshLayout)findViewById(R.id.refresh);
         send = (ImageView) findViewById(R.id.sendMessage);
         sendImage = (ImageView) findViewById(R.id.addImage);
         message = (EditText) findViewById(R.id.messageToSend);

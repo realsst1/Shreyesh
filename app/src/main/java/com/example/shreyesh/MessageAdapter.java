@@ -12,6 +12,8 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.NetworkPolicy;
 import com.squareup.picasso.Picasso;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 public class MessageAdapter extends RecyclerView.Adapter {
@@ -24,9 +26,12 @@ public class MessageAdapter extends RecyclerView.Adapter {
     private static final int VIEW_TYPE_MIDDLE_MESSAGE=3;
     private static final String currentUserID = "eHTD1GfzsJMkxyvtZcaO2O1Nq9q1";
     private static final String chatUserID = "yaZg0RepRPMOr9lt3bpLLRqx1e03";
+    private Date previousDate,currentDate;
+    private boolean show;
 
     public MessageAdapter(List<Messages> messageList){
         this.messageList=messageList;
+        show=false;
     }
 
     @Override
@@ -49,6 +54,7 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
         View view;
+        previousDate=new Date();
         if(i==1){
             view= LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.message_single_layout_s,viewGroup,false);
             return new SentViewHolder(view);
@@ -70,6 +76,14 @@ public class MessageAdapter extends RecyclerView.Adapter {
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
 
         String message=messageList.get(i).getMessage();
+        Long time=messageList.get(i).getTime();
+        currentDate=new Date(time);
+        if(currentDate.compareTo(previousDate)==0)
+            show=false;
+        else{
+            show=true;
+            previousDate=currentDate;
+        }
         switch (viewHolder.getItemViewType()){
             case VIEW_TYPE_MESSAGE_RECIEVED:
                 ((RecievedViewHolder)viewHolder).setMessage(message);
@@ -101,6 +115,15 @@ public class MessageAdapter extends RecyclerView.Adapter {
             TextView textView=(TextView)view.findViewById(R.id.messageRecieved);
             textView.setText(msg);
         }
+        public void setTime(Long time){
+            TextView d=(TextView)view.findViewById(R.id.rDate);
+            d.setText(getDatafTimeStamp(time));
+            System.out.println(getDatafTimeStamp(time));
+            if(show==true)
+                d.setVisibility(View.VISIBLE);
+            else
+                d.setVisibility(View.GONE);
+        }
 
     }
 
@@ -113,6 +136,15 @@ public class MessageAdapter extends RecyclerView.Adapter {
         public void setMessage(String msg){
             TextView textView=(TextView)view.findViewById(R.id.messageSent);
             textView.setText(msg);
+        }
+        public void setTime(Long time){
+            TextView d=(TextView)view.findViewById(R.id.sDate);
+            d.setText(getDatafTimeStamp(time));
+            System.out.println("time:"+getDatafTimeStamp(time));
+            if(show==true)
+                d.setVisibility(View.VISIBLE);
+            else
+                d.setVisibility(View.GONE);
         }
     }
 
@@ -138,6 +170,16 @@ public class MessageAdapter extends RecyclerView.Adapter {
                 }
             });
         }
+
+        public void setTime(Long time){
+            TextView d=(TextView)view.findViewById(R.id.sDateImage);
+            d.setText(getDatafTimeStamp(time));
+            d.setText(getDatafTimeStamp(time));
+            if(show==true)
+                d.setVisibility(View.VISIBLE);
+            else
+                d.setVisibility(View.GONE);
+        }
     }
 
     public class RecievedViewHolderImage extends RecyclerView.ViewHolder{
@@ -161,5 +203,23 @@ public class MessageAdapter extends RecyclerView.Adapter {
                        }
                    });
         }
+        public void setTime(Long time){
+            TextView d=(TextView)view.findViewById(R.id.rDateImage);
+            d.setText(getDatafTimeStamp(time));
+            d.setText(getDatafTimeStamp(time));
+            if(show==true)
+                d.setVisibility(View.VISIBLE);
+            else
+                d.setVisibility(View.GONE);
+        }
+    }
+
+    public String getDatafTimeStamp(long timestamp){
+
+        java.util.Date time=new java.util.Date(timestamp);
+
+        SimpleDateFormat pre = new SimpleDateFormat("dd-MM-YYYY");
+        //Hear Define your returning date formate
+        return pre.format(time);
     }
 }
